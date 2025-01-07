@@ -13,7 +13,10 @@ function Home() {
       try {
         const response = await fetch(API_URL);
         if (response.status.toString() === "404"){
-          throw new Error("El usuario no existe");
+          await fetch("https://playground.4geeks.com/todo/users/AlvaroRG", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        } )
         }
         const data = await response.json();
         // Extrae las tareas de la propiedad 'todos'
@@ -71,7 +74,6 @@ function Home() {
       const response = await fetch(`https://playground.4geeks.com/todo/todos/${id}`, { method: "DELETE" });
 	  console.log(response);
 
-        // Si la API devuelve un estado 204 (No Content), no intentes parsear el cuerpo.
 		if (response.ok) {
 			const updatedData = await fetch(API_URL);
 			if (!updatedData.ok) throw new Error("Error al obtener tareas actualizadas");
